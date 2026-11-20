@@ -1,2 +1,23 @@
-# blog-app-frontend
-Responsive Blog Application frontend built with HTML, CSS, and JavaScript, with Home, Login, Register, Dashboard, and Create Blog pages.
+# Blog Application – Frontend
+
+A responsive blog application interface built as part of Module 01 (Frontend Development).
+
+## Features
+- Responsive layout for mobile and desktop
+- Home page
+- Login and Register pages
+- Dashboard
+- Create Blog page
+
+## Tech Stack
+- HTML5
+- CSS3
+- JavaScript
+
+## Setup
+1. Clone the repo: `git clone https://github.com/sathyasreem/blog-app-frontend.git`
+2. Open the folder in VS Code
+3. Open `index.html` in a browser or run it with Live Server
+
+## Author
+sathya sree
