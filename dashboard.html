@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h2>My Blog</h2>
+  <nav><a href="index.html">Home</a><a href="create-blog.html">Create Blog</a><a href="#" onclick="logout()">Logout</a></nav>
+</header>
+<div class="container">
+  <h2 id="welcome" style="margin-bottom:16px"></h2>
+  <div id="myblogs" class="grid"></div>
+</div>
+<script src="script.js"></script>
+<script>
+requireLogin();
+document.getElementById('welcome').textContent='Welcome, '+get('user').name+'!';
+renderBlogs('myblogs',true);
+</script>
+</body>
+</html>
