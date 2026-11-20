@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog App - Home</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h2>My Blog</h2>
+  <nav><a href="index.html">Home</a><a href="login.html">Login</a><a href="register.html">Register</a><a href="dashboard.html">Dashboard</a></nav>
+</header>
+<div class="container">
+  <h2 style="margin-bottom:16px">Latest Blogs</h2>
+  <div id="blogs" class="grid"></div>
+</div>
+<script src="script.js"></script>
+<script>renderBlogs('blogs',false);</script>
+</body>
+</html>
