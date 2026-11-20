@@ -1,45 +1,68 @@
+const API="https://blog-app-backend-3au5.onrender.com";
 const get=k=>JSON.parse(localStorage.getItem(k)||'null');
 const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const val=id=>document.getElementById(id).value;
+const post=(path,body,token)=>fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify(body)});
 
-function renderBlogs(id,onlyMine){
+async function renderBlogs(id,onlyMine){
   const box=document.getElementById(id);
   if(!box)return;
+  box.innerHTML='<p>Loading... (first time may take 1 minute)</p>';
   const user=get('user');
-  let blogs=get('blogs')||[];
-  if(onlyMine&&user)blogs=blogs.filter(b=>b.author===user.name);
-  box.innerHTML=blogs.length
-    ?blogs.map(b=>`<div class="card"><h3>${esc(b.title)}</h3><p>${esc(b.content)}</p><small>By ${esc(b.author)}</small></div>`).join('')
-    :'<p>No blogs yet.</p>';
+  try{
+    const res=await fetch(API+'/api/blogs');
+    let blogs=await res.json();
+    if(onlyMine&&user)blogs=blogs.filter(b=>b.author===user.name);
+    box.innerHTML=blogs.length
+      ?blogs.map(b=>`<div class="card"><h3>${esc(b.title)}</h3><p>${esc(b.content)}</p><small>By ${esc(b.author)}</small></div>`).join('')
+      :'<p>No blogs yet.</p>';
+  }catch(err){
+    box.innerHTML='<p>Could not load blogs. Please refresh.</p>';
+  }
 }
-function register(e){
+
+async function register(e){
   e.preventDefault();
-  set('account',{name:val('name'),email:val('email'),password:val('password')});
-  alert('Registered! Please login.');
-  location.href='login.html';
+  try{
+    const res=await post('/api/register',{name:val('name'),email:val('email'),password:val('password')});
+    const data=await res.json();
+    alert(data.message);
+    if(res.ok)location.href='login.html';
+  }catch(err){alert('Server is waking up. Try again in a minute.');}
 }
-function login(e){
+
+async function login(e){
   e.preventDefault();
-  const a=get('account');
-  if(a&&a.email===val('email')&&a.password===val('password')){
-    set('user',a);
-    location.href='dashboard.html';
-  }else document.getElementById('msg').textContent='Invalid email or password';
+  const msg=document.getElementById('msg');
+  try{
+    const res=await post('/api/login',{email:val('email'),password:val('password')});
+    const data=await res.json();
+    if(res.ok){
+      set('user',{name:data.name,token:data.token});
+      location.href='dashboard.html';
+    }else if(msg)msg.textContent=data.message;
+  }catch(err){if(msg)msg.textContent='Server is waking up. Try again in a minute.';}
 }
+
 function logout(){
   localStorage.removeItem('user');
   location.href='login.html';
 }
+
 function requireLogin(){
   if(!get('user'))location.href='login.html';
 }
-function createBlog(e){
+
+async function createBlog(e){
   e.preventDefault();
   const u=get('user');
-  if(!u){location.href='login.html';return;}
-  const blogs=get('blogs')||[];
-  blogs.unshift({title:val('title'),content:val('content'),author:u.name});
-  set('blogs',blogs);
-  location.href='dashboard.html';
+  if(!u||!u.token){location.href='login.html';return;}
+  try{
+    const res=await post('/api/blogs',{title:val('title'),content:val('content')},u.token);
+    if(res.status===401){logout();return;}
+    const data=await res.json();
+    if(res.ok)location.href='dashboard.html';
+    else alert(data.message);
+  }catch(err){alert('Server is waking up. Try again in a minute.');}
 }
