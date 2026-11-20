@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create Blog</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h2>My Blog</h2>
+  <nav><a href="index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="#" onclick="logout()">Logout</a></nav>
+</header>
+<div class="container"><div class="card">
+  <h2 style="text-align:center;margin-bottom:16px">Create Blog</h2>
+  <form onsubmit="createBlog(event)">
+    <input id="title" type="text" placeholder="Blog title" required>
+    <textarea id="content" rows="8" placeholder="Write your blog..." required></textarea>
+    <button type="submit">Publish</button>
+  </form>
+</div></div>
+<script src="script.js"></script>
+<script>requireLogin();</script>
+</body>
+      </html>
