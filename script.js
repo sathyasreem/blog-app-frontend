@@ -15,8 +15,7 @@ async function renderBlogs(id,onlyMine){
     let blogs=await res.json();
     if(onlyMine&&user)blogs=blogs.filter(b=>b.author===user.name);
     box.innerHTML=blogs.length
-      ?blogs.map(b=>`<div class="card"><h3>${esc(b.title)}</h3><p>${esc(b.content)}</p><small>By ${esc(b.author)}</small></div>`).join('')
-      :'<p>No blogs yet.</p>';
+      ?blogs.map(b=>`<div class="card"><h3>${esc(b.title)}</h3><p>${esc(b.content.length>120?b.content.slice(0,120)+'...':b.content)}</p><small>By ${esc(b.author)}</small><br><a href="blog.html?id=${encodeURIComponent(b._id)}">Read more</a></div>`).join('')
   }catch(err){
     box.innerHTML='<p>Could not load blogs. Please refresh.</p>';
   }
