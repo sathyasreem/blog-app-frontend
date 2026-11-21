@@ -18,6 +18,8 @@ A responsive blog application interface built as part of Module 01 (Frontend Dev
 1. Clone the repo: `git clone https://github.com/sathyasreem/blog-app-frontend.git`
 2. Open the folder in VS Code
 3. Open `index.html` in a browser or run it with Live Server
-
+- Blogs fetched live from MongoDB Atlas via REST API
+- Individual blog details page
+- Secure authentication (bcrypt + JWT)
 ## Author
 sathya sree
