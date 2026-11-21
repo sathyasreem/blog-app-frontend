@@ -16,8 +16,26 @@ async function renderBlogs(id,onlyMine){
     if(onlyMine&&user)blogs=blogs.filter(b=>b.author===user.name);
     box.innerHTML=blogs.length
       ?blogs.map(b=>`<div class="card"><h3>${esc(b.title)}</h3><p>${esc(b.content.length>120?b.content.slice(0,120)+'...':b.content)}</p><small>By ${esc(b.author)}</small><br><a href="blog.html?id=${encodeURIComponent(b._id)}">Read more</a></div>`).join('')
+      :'<p>No blogs yet.</p>';
   }catch(err){
     box.innerHTML='<p>Could not load blogs. Please refresh.</p>';
+  }
+}
+
+async function loadBlog(){
+  const box=document.getElementById('blogDetail');
+  if(!box)return;
+  const id=new URLSearchParams(location.search).get('id');
+  if(!id){box.innerHTML='<p>Blog not found.</p>';return;}
+  box.innerHTML='<p>Loading... (first time may take 1 minute)</p>';
+  try{
+    const res=await fetch(API+'/api/blogs/'+encodeURIComponent(id));
+    if(!res.ok){box.innerHTML='<p>Blog not found.</p>';return;}
+    const b=await res.json();
+    const date=new Date(b.createdAt).toLocaleDateString();
+    box.innerHTML=`<div class="card"><h2>${esc(b.title)}</h2><small>By ${esc(b.author)} | ${esc(date)}</small><p style="margin-top:12px;white-space:pre-wrap">${esc(b.content)}</p></div>`;
+  }catch(err){
+    box.innerHTML='<p>Could not load blog. Please refresh.</p>';
   }
 }
 
