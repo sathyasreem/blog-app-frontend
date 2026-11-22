@@ -9,13 +9,13 @@
 <body>
 <header>
   <h2>My Blog</h2>
-  <nav><a href="index.html">Home</a><a href="create-blog.html">Create Blog</a><a href="#" onclick="logout()">Logout</a></nav>
+  <nav><a href="index.html">Home</a><a href="create-blog.html">Create Blog</a><a href="profile.html">Profile</a><a href="#" onclick="logout()">Logout</a></nav>
 </header>
 <div class="container">
   <h2 id="welcome" style="margin-bottom:16px"></h2>
   <div id="myblogs" class="grid"></div>
 </div>
-<script src="script.js?v=7"></script>
+<script src="script.js?v=8"></script>
 <script>
 requireLogin();
 document.getElementById('welcome').textContent='Welcome, '+get('user').name+'!';
