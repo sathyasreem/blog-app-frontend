@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h2>My Blog</h2>
+  <nav><a href="index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="create-blog.html">Create Blog</a><a href="#" onclick="logout()">Logout</a></nav>
+</header>
+<div class="container">
+  <h2 style="margin-bottom:16px">My Profile</h2>
+  <div id="profileBox"></div>
+</div>
+<script src="script.js?v=8"></script>
+<script>
+requireLogin();
+loadProfile();
+</script>
+</body>
+</html>
