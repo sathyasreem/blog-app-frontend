@@ -11,9 +11,15 @@ async function renderBlogs(id,onlyMine){
   box.innerHTML='<p>Loading... (first time may take 1 minute)</p>';
   const user=get('user');
   try{
-    const res=await fetch(API+'/api/blogs');
-    let blogs=await res.json();
-    if(onlyMine&&user)blogs=blogs.filter(b=>b.author===user.name);
+    let res;
+    if(onlyMine){
+      if(!user||!user.token){location.href='login.html';return;}
+      res=await fetch(API+'/api/myblogs',{headers:{Authorization:'Bearer '+user.token}});
+      if(res.status===401){logout();return;}
+    }else{
+      res=await fetch(API+'/api/blogs');
+    }
+    const blogs=await res.json();
     box.innerHTML=blogs.length
       ?blogs.map(b=>`<div class="card"><h3>${esc(b.title)}</h3><p>${esc(b.content.length>120?b.content.slice(0,120)+'...':b.content)}</p><small>By ${esc(b.author)}</small><br><a href="blog.html?id=${encodeURIComponent(b._id)}">Read more</a>${onlyMine?` | <a href="edit.html?id=${encodeURIComponent(b._id)}">Edit</a> | <a href="#" onclick="deleteBlog('${b._id}');return false">Delete</a>`:''}</div>`).join('')
       :'<p>No blogs yet.</p>';
@@ -121,4 +127,20 @@ async function updateBlog(e){
     if(res.ok){alert('Blog updated');location.href='dashboard.html';}
     else alert(data.message);
   }catch(err){alert('Server is waking up. Try again in a minute.');}
+}
+
+async function loadProfile(){
+  const box=document.getElementById('profileBox');
+  if(!box)return;
+  const u=get('user');
+  if(!u||!u.token){location.href='login.html';return;}
+  box.innerHTML='<p>Loading... (first time may take 1 minute)</p>';
+  try{
+    const res=await fetch(API+'/api/profile',{headers:{Authorization:'Bearer '+u.token}});
+    if(res.status===401){logout();return;}
+    const p=await res.json();
+    box.innerHTML=`<div class="card"><h3>${esc(p.name)}</h3><p>Email: ${esc(p.email)}</p><p>Total blogs: ${esc(p.blogCount)}</p><br><a href="dashboard.html">My Blogs</a> | <a href="#" onclick="logout();return false">Logout</a></div>`;
+  }catch(err){
+    box.innerHTML='<p>Could not load profile. Please refresh.</p>';
+  }
   }
