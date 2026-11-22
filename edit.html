@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit Blog</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h2>My Blog</h2>
+  <nav><a href="index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="#" onclick="logout()">Logout</a></nav>
+</header>
+<div class="container">
+  <h2 style="margin-bottom:16px">Edit Blog</h2>
+  <form onsubmit="updateBlog(event)">
+    <input type="text" id="title" placeholder="Title" required>
+    <textarea id="content" rows="10" placeholder="Content" required></textarea>
+    <button type="submit">Update Blog</button>
+  </form>
+</div>
+<script src="script.js?v=7"></script>
+<script>
+requireLogin();
+loadEditBlog();
+</script>
+</body>
+</html>
