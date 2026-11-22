@@ -1,25 +1,73 @@
-# Blog Application – Frontend
+# Full Stack Blog Application
 
-A responsive blog application interface built as part of Module 01 (Frontend Development).
+A responsive full stack blog platform where users can register, log in, and create, read, update and delete their own blogs.
+
+🌐 **Live Demo:** https://blog-app-frontend-a4pj.netlify.app
+🔗 **Backend Repo:** https://github.com/sathyasreem/blog-app-backend
+⚙️ **API:** https://blog-app-backend-3au5.onrender.com
+
+> The backend runs on Render's free plan, so the first request may take up to a minute to wake the server.
 
 ## Features
-- Responsive layout for mobile and desktop
-- Home page
-- Login and Register pages
-- Dashboard
-- Create Blog page
+
+- User registration and login with JWT authentication
+- Passwords hashed with bcrypt
+- Create, read, update and delete blogs (CRUD)
+- Only the author can edit or delete their own blogs
+- Protected dashboard showing only the logged-in user's blogs
+- User profile page (name, email, total blogs)
+- Home page listing all blogs and a blog details page
+- Fully responsive design (mobile friendly)
 
 ## Tech Stack
-- HTML5
-- CSS3
-- JavaScript
 
-## Setup
-1. Clone the repo: `git clone https://github.com/sathyasreem/blog-app-frontend.git`
-2. Open the folder in VS Code
-3. Open `index.html` in a browser or run it with Live Server
-- Blogs fetched live from MongoDB Atlas via REST API
-- Individual blog details page
-- Secure authentication (bcrypt + JWT)
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB Atlas (Mongoose)
+- **Auth:** JSON Web Tokens (JWT), bcryptjs
+- **Hosting:** Netlify (frontend), Render (backend)
+
+## Pages
+
+| Page | Purpose |
+|------|---------|
+| index.html | Home, all blogs |
+| register.html | Create an account |
+| login.html | Log in |
+| dashboard.html | My blogs (Edit / Delete) |
+| create-blog.html | Write a new blog |
+| edit.html | Update a blog |
+| blog.html | Blog details |
+| profile.html | User profile |
+
+## API Endpoints
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | /api/register | No | Register user |
+| POST | /api/login | No | Login, returns JWT |
+| GET | /api/blogs | No | All blogs |
+| GET | /api/blogs/:id | No | Single blog |
+| POST | /api/blogs | Yes | Create blog |
+| PUT | /api/blogs/:id | Yes | Update own blog |
+| DELETE | /api/blogs/:id | Yes | Delete own blog |
+| GET | /api/myblogs | Yes | Logged-in user's blogs |
+| GET | /api/profile | Yes | User profile |
+
+## Run Locally
+
+1. Clone the frontend: `git clone https://github.com/sathyasreem/blog-app-frontend.git`
+2. Open `index.html` in a browser or use Live Server
+3. Backend setup:
+   - `git clone https://github.com/sathyasreem/blog-app-backend.git`
+   - `npm install`
+   - Create a `.env` file with `MONGO_URI`, `JWT_SECRET` and `PORT`
+   - `node server.js`
+4. Change the `API` constant at the top of `script.js` to your local backend URL
+
 ## Author
-sathya sree
+
+**Sathya Sree M**
+GitHub: [@sathyasreem](https://github.com/sathyasreem)
+
+Built as part of the Codomax Full Stack Web Development internship.
